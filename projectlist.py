@@ -6,14 +6,6 @@ import sys
 import sqlite3 as sql
 from wx.lib.mixins.listctrl import ListCtrlAutoWidthMixin, TextEditMixin
 
-projects = [
-    [
-        "linkchecker",
-        "failed",
-        "no",
-        "/home/victor/Documents/Projects/linkchecker",
-    ]
-]
 CREATE_CMD = ("CREATE TABLE Projects(Name TEXT,"
               "Status TEXT, GitHub TEXT, Path TEXT, Info TEXT)")
 
