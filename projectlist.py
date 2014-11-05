@@ -42,10 +42,16 @@ class CheckListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, TextEditMixin):
         event.Skip()
 
 class InfoDialog(wx.Frame):
-    def __init__(self, parent, title, info):
+    def __init__(self, parent, title, item, info):
         wx.Frame.__init__(self, parent, title="%s|info" % title.GetText())
         self.text = wx.TextCtrl(self, style=wx.TE_MULTILINE)
         self.text.SetValue(info)
+        self.item = item
+        self.Bind(wx.EVT_CLOSE, self.onClose)
+    
+    def onClose(self, event):
+        self.GetParent().infos[self.item] = self.text.GetValue()
+        self.Destroy()
 
 class Window(wx.Frame):
     def __init__(self):
@@ -110,9 +116,8 @@ class Window(wx.Frame):
         item = self.listctrl.GetFocusedItem()
         if item == -1: return
         title = self.listctrl.GetItem(item, 0)
-        dialog = InfoDialog(self, title, self.infos[item])
+        dialog = InfoDialog(self, title, item, self.infos[item])
         dialog.Show()
-        self.infos[item] = dialog.text.GetValue()
     
     def onRemove(self, event):
         item = self.listctrl.GetFocusedItem()
